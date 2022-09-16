@@ -30,6 +30,16 @@ public class Main extends javax.swing.JFrame {
         txt_Registro = new javax.swing.JLabel();
         btn_Register = new javax.swing.JButton();
         btn_Back = new javax.swing.JButton();
+        txt_Usuario = new javax.swing.JLabel();
+        txt_Contraseña = new javax.swing.JLabel();
+        txt_Nombre = new javax.swing.JLabel();
+        txt_Correo = new javax.swing.JLabel();
+        txt_Edad = new javax.swing.JLabel();
+        sp_edad = new javax.swing.JSpinner();
+        tf_Nombre = new javax.swing.JTextField();
+        tf_Correo = new javax.swing.JTextField();
+        tf_Usuario = new javax.swing.JTextField();
+        tf_Contraseña = new javax.swing.JTextField();
         BG_Login = new javax.swing.JPanel();
         txt_login = new javax.swing.JLabel();
         txt_user = new javax.swing.JLabel();
@@ -65,20 +75,46 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        txt_Usuario.setText("Usuario");
+
+        txt_Contraseña.setText("Contraseña");
+
+        txt_Nombre.setText("Nombre");
+
+        txt_Correo.setText("Correo");
+
+        txt_Edad.setText("Edad");
+
+        tf_Contraseña.setText("jTextField2");
+
         javax.swing.GroupLayout RegistroLayout = new javax.swing.GroupLayout(Registro.getContentPane());
         Registro.getContentPane().setLayout(RegistroLayout);
         RegistroLayout.setHorizontalGroup(
             RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RegistroLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(btn_Back, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67)
-                .addComponent(txt_Registro)
-                .addContainerGap(250, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegistroLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_Register, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
+            .addGroup(RegistroLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_Usuario)
+                    .addGroup(RegistroLayout.createSequentialGroup()
+                        .addComponent(btn_Back, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(txt_Registro))
+                    .addComponent(txt_Nombre)
+                    .addComponent(txt_Edad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sp_edad, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_Contraseña)
+                    .addComponent(txt_Correo)
+                    .addComponent(tf_Correo)
+                    .addComponent(tf_Contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
+                .addGap(71, 71, 71))
         );
         RegistroLayout.setVerticalGroup(
             RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +123,27 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txt_Registro)
                     .addComponent(btn_Back, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_Usuario)
+                    .addComponent(txt_Contraseña))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_Nombre)
+                    .addComponent(txt_Correo))
+                .addGap(18, 18, 18)
+                .addGroup(RegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_Correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(txt_Edad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sp_edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addComponent(btn_Register, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
@@ -266,8 +322,18 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_reg;
     private javax.swing.JToggleButton btn_sign;
     private javax.swing.JPasswordField pf_pass;
+    private javax.swing.JSpinner sp_edad;
+    private javax.swing.JTextField tf_Contraseña;
+    private javax.swing.JTextField tf_Correo;
+    private javax.swing.JTextField tf_Nombre;
     private javax.swing.JTextField tf_User;
+    private javax.swing.JTextField tf_Usuario;
+    private javax.swing.JLabel txt_Contraseña;
+    private javax.swing.JLabel txt_Correo;
+    private javax.swing.JLabel txt_Edad;
+    private javax.swing.JLabel txt_Nombre;
     private javax.swing.JLabel txt_Registro;
+    private javax.swing.JLabel txt_Usuario;
     private javax.swing.JLabel txt_login;
     private javax.swing.JLabel txt_pass;
     private javax.swing.JLabel txt_user;
