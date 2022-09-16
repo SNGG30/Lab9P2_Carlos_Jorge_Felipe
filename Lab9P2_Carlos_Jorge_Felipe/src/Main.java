@@ -1,3 +1,8 @@
+
+import lab9.Dba;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -57,6 +62,11 @@ public class Main extends javax.swing.JFrame {
         txt_Registro.setText("REGISTRO");
 
         btn_Register.setText("Registrar");
+        btn_Register.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_RegisterMouseClicked(evt);
+            }
+        });
         btn_Register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_RegisterActionPerformed(evt);
@@ -84,8 +94,6 @@ public class Main extends javax.swing.JFrame {
         txt_Correo.setText("Correo");
 
         txt_Edad.setText("Edad");
-
-        tf_Contraseña.setText("jTextField2");
 
         javax.swing.GroupLayout RegistroLayout = new javax.swing.GroupLayout(Registro.getContentPane());
         Registro.getContentPane().setLayout(RegistroLayout);
@@ -257,6 +265,7 @@ public class Main extends javax.swing.JFrame {
         
         
         
+        
     }//GEN-LAST:event_btn_regMouseClicked
 
     private void btn_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegisterActionPerformed
@@ -278,6 +287,37 @@ public class Main extends javax.swing.JFrame {
         
         Registro.setVisible(false);
     }//GEN-LAST:event_btn_BackMouseClicked
+
+    private void btn_RegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_RegisterMouseClicked
+        String username, nombre, correo, password;
+        int edad;
+        
+        username=tf_Usuario.getText();
+        nombre = tf_Nombre.getText();
+        correo = tf_Correo.getText();
+        password=tf_Contraseña.getText();
+        edad = (int) sp_edad.getValue();
+        
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Insert into Usuarios (Username,Nombre,Contraseña,edad,Correo) values ('"
+                    +username+"','"+nombre+"','"+password+"',"+edad+",'"+correo+"')");
+            db.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+        
+        JOptionPane.showMessageDialog(Registro, "Se ha registrado correctamente!");
+        
+        tf_Contraseña.setText("");
+        tf_Correo.setText("");
+        tf_Nombre.setText("");
+        tf_Usuario.setText("");
+        sp_edad.setValue(0);
+        
+    }//GEN-LAST:event_btn_RegisterMouseClicked
 
     /**
      * @param args the command line arguments

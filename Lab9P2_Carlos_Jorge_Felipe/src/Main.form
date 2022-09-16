@@ -98,6 +98,7 @@
             <Property name="text" type="java.lang.String" value="Registrar"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_RegisterMouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RegisterActionPerformed"/>
           </Events>
         </Component>
@@ -144,9 +145,6 @@
         <Component class="javax.swing.JTextField" name="tf_Usuario">
         </Component>
         <Component class="javax.swing.JTextField" name="tf_Contrase&#xf1;a">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField2"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
