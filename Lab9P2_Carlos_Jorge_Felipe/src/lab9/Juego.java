@@ -9,16 +9,17 @@ public class Juego {
     private String categoria;
     private double costo;
     private String nombre;
-    private ArrayList<Idiomas> idiomas = new ArrayList();
+    private String idiomas;
 
     public Juego() {
     }
 
-    public Juego(int id, String categoria, double costo, String nombre) {
+    public Juego(int id, String categoria, double costo, String nombre, String idiomas) {
         this.id=id;
         this.categoria = categoria;
         this.costo = costo;
         this.nombre = nombre;
+        this.idiomas=idiomas;
     }
 
     public int getId() {
@@ -53,14 +54,16 @@ public class Juego {
         this.nombre = nombre;
     }
 
-    public ArrayList<Idiomas> getIdiomas() {
+    public String getIdiomas() {
         return idiomas;
     }
 
-    public void setIdiomas(ArrayList<Idiomas> idiomas) {
+    public void setIdiomas(String idiomas) {
         this.idiomas = idiomas;
     }
 
+    
+    
     @Override
     public String toString() {
         return nombre;

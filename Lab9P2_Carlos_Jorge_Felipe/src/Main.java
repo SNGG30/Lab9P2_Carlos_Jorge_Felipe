@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import lab9.Usuario;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import lab9.Juego;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,7 +65,7 @@ public class Main extends javax.swing.JFrame {
         btn_gen = new javax.swing.JToggleButton();
         btn_exe = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtable_juegos_all = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         txt_nombre = new javax.swing.JLabel();
@@ -223,7 +225,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_juegos_all.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -246,13 +248,13 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane1.setViewportView(jtable_juegos_all);
+        if (jtable_juegos_all.getColumnModel().getColumnCount() > 0) {
+            jtable_juegos_all.getColumnModel().getColumn(0).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(1).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(2).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(3).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -765,10 +767,38 @@ public class Main extends javax.swing.JFrame {
         db.desconectar();
             
         JOptionPane.showMessageDialog(MainScr, "Juego creado exitosamente!");
-
+        update_juegos();
+        //update_tabla_crear();
+        
         }
     }//GEN-LAST:event_btn_exeMouseClicked
 
+    public void update_tabla_crear(){
+        update_juegos();
+        DefaultTableModel modelo = (DefaultTableModel) jtable_juegos_all.getModel();
+        for (Juego j : juegos) {
+            Object [] newrow = {j.getId(),j.getCategoria(),j.getCosto(),j.getNombre(),j.getIdiomas()};
+            modelo.addRow(newrow);
+        }
+        jtable_juegos_all.setModel(modelo);
+    }
+    
+    public void update_juegos(){
+        juegos=new ArrayList();
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Select * from Juegos");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {                
+                 juegos.add(new Juego(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }
+    
     public void update_usuarios(){
         usuarios=new ArrayList();
         Dba db = new Dba("./base1.accdb");
@@ -856,9 +886,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jtable_juegos_all;
     private javax.swing.JMenuBar mb_Archivo;
     private javax.swing.JPasswordField pf_pass;
     private javax.swing.JPopupMenu.Separator sep1;
@@ -898,5 +928,6 @@ public class Main extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private ArrayList<Usuario> usuarios = new ArrayList();
-
+    private ArrayList<Juego> juegos = new ArrayList();
+    
 }
