@@ -297,6 +297,19 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_BackMouseClicked
 
     private void btn_RegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_RegisterMouseClicked
+        
+        update_usuarios();
+        boolean flag=false;
+        for (Usuario u : usuarios) {
+            if(u.getUsername().equals(tf_Usuario.getText())){
+                flag=true;
+            }
+        }
+        
+        if(flag==false){
+            
+        
+        
         String username, nombre, correo, password;
         int edad;
         
@@ -324,7 +337,9 @@ public class Main extends javax.swing.JFrame {
         tf_Nombre.setText("");
         tf_Usuario.setText("");
         sp_edad.setValue(0);
-        
+        } else{
+            JOptionPane.showMessageDialog(Registro, "Usuario repetido!");
+        }
     }//GEN-LAST:event_btn_RegisterMouseClicked
 
     private void btn_signMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_signMouseClicked
