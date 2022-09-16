@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import lab9.Usuario;
 import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +24,13 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_crud_juegos.getModel();
+        modelo.addElement("Crear");
+        modelo.addElement("Modificar");
+        modelo.addElement("Eliminar");
+        cb_crud_juegos.setModel(modelo);
+        
     }
 
     /**
@@ -51,7 +59,7 @@ public class Main extends javax.swing.JFrame {
         MainScr = new javax.swing.JFrame();
         TP_Main = new javax.swing.JTabbedPane();
         Juego = new javax.swing.JPanel();
-        Crud = new javax.swing.JComboBox<>();
+        cb_crud_juegos = new javax.swing.JComboBox<>();
         btn_gen = new javax.swing.JToggleButton();
         btn_exe = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -101,7 +109,6 @@ public class Main extends javax.swing.JFrame {
         btn_reg = new javax.swing.JToggleButton();
 
         Registro.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        Registro.setPreferredSize(new java.awt.Dimension(655, 539));
         Registro.setResizable(false);
 
         txt_Registro.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -207,8 +214,6 @@ public class Main extends javax.swing.JFrame {
         MainScr.setPreferredSize(new java.awt.Dimension(655, 800));
         MainScr.setResizable(false);
 
-        Crud.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Crear", "Seleccionar", "Modificar", "Eliminar" }));
-
         btn_gen.setText("Generar");
 
         btn_exe.setText("Ejecutar");
@@ -273,7 +278,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(JuegoLayout.createSequentialGroup()
                         .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(JuegoLayout.createSequentialGroup()
-                                .addComponent(Crud, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cb_crud_juegos, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(84, 84, 84)
                                 .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(JuegoLayout.createSequentialGroup()
@@ -308,11 +313,10 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(JuegoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_exe)
-                        .addGap(18, 18, 18))
+                        .addComponent(btn_exe))
                     .addGroup(JuegoLayout.createSequentialGroup()
                         .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Crud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_crud_juegos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_nombre)
                             .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tf_namech, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -322,18 +326,15 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(txt_categoria)
                                 .addComponent(tf_cat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(tf_catch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(JuegoLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_gen)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE))
-                            .addGroup(JuegoLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txt_costo)
-                                    .addComponent(tf_cos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tf_cosch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(btn_gen)
+                            .addGroup(JuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_costo)
+                                .addComponent(tf_cos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tf_cosch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -781,7 +782,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu Archivo;
     private javax.swing.JPanel BG_Login;
     private javax.swing.JPanel Correo;
-    private javax.swing.JComboBox<String> Crud;
     private javax.swing.JPanel Idioma;
     private javax.swing.JPanel Juego;
     private javax.swing.JMenuItem Limpiar;
@@ -798,6 +798,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToggleButton btn_gen;
     private javax.swing.JToggleButton btn_reg;
     private javax.swing.JToggleButton btn_sign;
+    private javax.swing.JComboBox<String> cb_crud_juegos;
     private javax.swing.JComboBox<String> cb_games;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
