@@ -217,48 +217,74 @@ public class Main extends javax.swing.JFrame {
         btn_gen.setText("Generar");
 
         btn_exe.setText("Ejecutar");
+        btn_exe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_exeMouseClicked(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "ID", "Nombre", "Categoria", "Costo", "Idiomas"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Categoria", "Costo", "Idiomas"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         txt_nombre.setText("Nombre");
 
@@ -716,6 +742,32 @@ public class Main extends javax.swing.JFrame {
     private void tf_caseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_caseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_caseActionPerformed
+
+    private void btn_exeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_exeMouseClicked
+        //Crear juego
+        if(cb_crud_juegos.getSelectedItem().equals("Crear")){
+            String nombre,categoria;
+            double costo;
+            
+            nombre=tf_name.getText();
+            categoria = tf_cat.getText();
+            costo = Double.parseDouble(tf_cos.getText());
+            
+            Dba db = new Dba("./base1.accdb");
+            db.conectar();
+            try {
+                db.query.execute("Insert into Juegos (Categoria,Costo,Nombre) values('"+categoria+"','"+costo+"','"
+                        +nombre+"')");
+                db.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+            
+        JOptionPane.showMessageDialog(MainScr, "Juego creado exitosamente!");
+
+        }
+    }//GEN-LAST:event_btn_exeMouseClicked
 
     public void update_usuarios(){
         usuarios=new ArrayList();
