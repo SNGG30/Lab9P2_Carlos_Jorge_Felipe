@@ -1,7 +1,10 @@
 
 import lab9.Dba;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import lab9.Usuario;
+import java.sql.ResultSet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -170,6 +173,11 @@ public class Main extends javax.swing.JFrame {
         txt_pass.setText("Contraseña");
 
         btn_sign.setText("Ingresar");
+        btn_sign.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_signMouseClicked(evt);
+            }
+        });
         btn_sign.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_signActionPerformed(evt);
@@ -319,6 +327,48 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_RegisterMouseClicked
 
+    private void btn_signMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_signMouseClicked
+        update_usuarios();
+        boolean flag=false;
+        for (Usuario u : usuarios) {
+            if(u.getUsername().equals(tf_User.getText()) && u.getPassword().equals(pf_pass.getText())){
+                flag=true;
+            }
+        }
+        
+        if(flag){
+            JOptionPane.showMessageDialog(this, "Datos correctos");
+        } else{
+            JOptionPane.showMessageDialog(this, "Datos incorrectos");
+        }
+        
+    }//GEN-LAST:event_btn_signMouseClicked
+
+    public void update_usuarios(){
+        usuarios=new ArrayList();
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Select * from Usuarios");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {                
+                 usuarios.add(new Usuario(
+                        rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
+            }
+            /*
+            
+            while (rs.next()) {                
+                usuarios.add(new Usuario(
+                        rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
+            }
+            */
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -378,4 +428,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel txt_pass;
     private javax.swing.JLabel txt_user;
     // End of variables declaration//GEN-END:variables
+
+    private ArrayList<Usuario> usuarios = new ArrayList();
+
 }
