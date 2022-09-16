@@ -198,7 +198,6 @@ public class Main extends javax.swing.JFrame {
         Registro.setVisible(true);
         
         this.setVisible(false);
-        this.setEnabled(false);
     }//GEN-LAST:event_btn_regMouseClicked
 
     private void btn_RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegisterActionPerformed
@@ -212,13 +211,13 @@ public class Main extends javax.swing.JFrame {
     private void btn_BackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_BackMouseClicked
         // TODO add your handling code here:
        
+        
         this.pack();
         this.setLocationRelativeTo(Registro);
         this.setAlwaysOnTop(true);
         this.setVisible(true);
         
         Registro.setVisible(false);
-        Registro.setEnabled(false);
     }//GEN-LAST:event_btn_BackMouseClicked
 
     /**
