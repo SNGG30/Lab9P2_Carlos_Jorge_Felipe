@@ -9,6 +9,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import lab9.Idiomas;
 import lab9.Juego;
+import lab9.LibLab9;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -727,11 +728,14 @@ public class Main extends javax.swing.JFrame {
         password=tf_Contraseña.getText();
         edad = (int) sp_edad.getValue();
         
+        
+        String p = LibLab9.encrypt(password); //Encriptando contraseña
+        
         Dba db = new Dba("./base1.accdb");
         db.conectar();
         try {
             db.query.execute("Insert into Usuarios (Username,Nombre,Contraseña,edad,Correo) values ('"
-                    +username+"','"+nombre+"','"+password+"',"+edad+",'"+correo+"')");
+                    +username+"','"+nombre+"','"+p+"',"+edad+",'"+correo+"')");
             db.commit();
         } catch (SQLException e) {
             e.printStackTrace();
