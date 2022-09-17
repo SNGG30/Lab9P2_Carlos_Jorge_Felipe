@@ -7,6 +7,7 @@ import lab9.Usuario;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
+import lab9.Idiomas;
 import lab9.Juego;
 
 /*
@@ -81,11 +82,11 @@ public class Main extends javax.swing.JFrame {
         txt_nid = new javax.swing.JLabel();
         txt_idj = new javax.swing.JLabel();
         cb_games = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        tf_nombre_crear_idioma = new javax.swing.JTextField();
         btn_creatid = new javax.swing.JToggleButton();
         btn_addtogame = new javax.swing.JToggleButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        table_language = new javax.swing.JTable();
+        jtable_idiomas = new javax.swing.JTable();
         Correo = new javax.swing.JPanel();
         txt_for = new javax.swing.JLabel();
         txt_case = new javax.swing.JLabel();
@@ -214,6 +215,12 @@ public class Main extends javax.swing.JFrame {
         MainScr.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         MainScr.setTitle("Generador de Querys");
         MainScr.setResizable(false);
+
+        TP_Main.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                TP_MainStateChanged(evt);
+            }
+        });
 
         btn_gen.setText("Generar");
 
@@ -375,31 +382,42 @@ public class Main extends javax.swing.JFrame {
         txt_idj.setText("Idioma al juego");
 
         btn_creatid.setText("Crear");
+        btn_creatid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_creatidMouseClicked(evt);
+            }
+        });
 
         btn_addtogame.setText("Agregar");
 
-        table_language.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_idiomas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "ID", "Lenguaje"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(table_language);
+        jtable_idiomas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jtable_idiomas);
+        if (jtable_idiomas.getColumnModel().getColumnCount() > 0) {
+            jtable_idiomas.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         javax.swing.GroupLayout IdiomaLayout = new javax.swing.GroupLayout(Idioma);
         Idioma.setLayout(IdiomaLayout);
@@ -419,7 +437,7 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(IdiomaLayout.createSequentialGroup()
                                 .addGroup(IdiomaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_nid, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tf_nombre_crear_idioma, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(93, 93, 93)
                                 .addGroup(IdiomaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txt_idj, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,7 +454,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(IdiomaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cb_games, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_nombre_crear_idioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(IdiomaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_creatid)
@@ -510,6 +528,11 @@ public class Main extends javax.swing.JFrame {
         Archivo.add(sep1);
 
         Limpiar.setText("Limpiar");
+        Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LimpiarActionPerformed(evt);
+            }
+        });
         Archivo.add(Limpiar);
 
         Salir.setText("Salir");
@@ -740,6 +763,7 @@ public class Main extends javax.swing.JFrame {
             this.setVisible(false);
             
             update_tabla_crear();
+            update_jtable_idiomas();
             
         } else{
             JOptionPane.showMessageDialog(this, "Datos incorrectos");
@@ -785,8 +809,73 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
 
+    private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LimpiarActionPerformed
+
+    private void btn_creatidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_creatidMouseClicked
+        String nombre = tf_nombre_crear_idioma.getText();
+        
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Insert into Idiomas (Nombre) values ('"+nombre+"')");
+            db.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        db.desconectar();
+        
+        JOptionPane.showMessageDialog(MainScr, "Idioma creado exitosamente!");
+        tf_nombre_crear_idioma.setText("");
+        update_jtable_idiomas();
+        
+    }//GEN-LAST:event_btn_creatidMouseClicked
+
+    private void TP_MainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TP_MainStateChanged
+        if(TP_Main.getSelectedIndex()==1){
+           cargar_juegos_combobox();
+        }
+    }//GEN-LAST:event_TP_MainStateChanged
+
     public void update_tabla_crear(){
         update_juegos();
+        
+        //Limpiar tabla
+        jtable_juegos_all.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Categoria", "Costo", "Idiomas"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtable_juegos_all);
+        if (jtable_juegos_all.getColumnModel().getColumnCount() > 0) {
+            jtable_juegos_all.getColumnModel().getColumn(0).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(1).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(2).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(3).setResizable(false);
+            jtable_juegos_all.getColumnModel().getColumn(4).setResizable(false);
+        }
+        
+        
         DefaultTableModel modelo = (DefaultTableModel) jtable_juegos_all.getModel();
         for (Juego j : juegos) {
             Object [] newrow = {j.getId(),j.getNombre(),j.getCategoria(),j.getCosto(),j.getIdiomas()};
@@ -797,12 +886,88 @@ public class Main extends javax.swing.JFrame {
     
     public void update_creado_juego(){
         update_juegos();
+        
+        //Limpiar tabla
+        jtable_2_juegos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Categoria", "Costo", "Idiomas"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtable_2_juegos);
+        if (jtable_2_juegos.getColumnModel().getColumnCount() > 0) {
+            jtable_2_juegos.getColumnModel().getColumn(0).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(1).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(2).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(3).setResizable(false);
+        }
+        
+        
         DefaultTableModel modelo = (DefaultTableModel) jtable_2_juegos.getModel();
         for (Juego j : juegos) {
             Object [] newrow = {j.getNombre(),j.getCategoria(),j.getCosto(),j.getIdiomas()};
             modelo.addRow(newrow);
         }
         jtable_2_juegos.setModel(modelo);
+    }
+    
+    public void update_jtable_idiomas(){
+        update_idiomas();
+        
+        //Limpiar tabla
+        jtable_idiomas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Lenguaje"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtable_idiomas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jtable_idiomas);
+        if (jtable_idiomas.getColumnModel().getColumnCount() > 0) {
+            jtable_idiomas.getColumnModel().getColumn(0).setResizable(false);
+        }
+        
+        
+        DefaultTableModel modelo = (DefaultTableModel) jtable_idiomas.getModel();
+        for (Idiomas i : idiomas) {
+            Object [] newrow = {i.getId(),i.getNombre()};
+            modelo.addRow(newrow);
+        }
+        jtable_idiomas.setModel(modelo);
     }
     
     public void update_juegos(){
@@ -814,6 +979,22 @@ public class Main extends javax.swing.JFrame {
             ResultSet rs = db.query.getResultSet();
             while (rs.next()) {                
                  juegos.add(new Juego(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+    }
+    
+    public void update_idiomas(){
+        idiomas=new ArrayList();
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Select * from Idiomas");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {                
+                 idiomas.add(new Idiomas(rs.getInt(1), rs.getString(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -844,6 +1025,15 @@ public class Main extends javax.swing.JFrame {
             e.printStackTrace();
         }
         db.desconectar();
+    }
+    
+    public void cargar_juegos_combobox(){
+        update_juegos();
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_games.getModel();
+        for (Juego a : juegos) {
+            modelo.addElement(a);
+        }
+        cb_games.setModel(modelo);
     }
     
     /**
@@ -908,15 +1098,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable jtable_2_juegos;
+    private javax.swing.JTable jtable_idiomas;
     private javax.swing.JTable jtable_juegos_all;
     private javax.swing.JMenuBar mb_Archivo;
     private javax.swing.JPasswordField pf_pass;
     private javax.swing.JPopupMenu.Separator sep1;
     private javax.swing.JSpinner sp_edad;
     private javax.swing.JTextArea ta_body;
-    private javax.swing.JTable table_language;
     private javax.swing.JTextField tf_Contraseña;
     private javax.swing.JTextField tf_Correo;
     private javax.swing.JTextField tf_Nombre;
@@ -930,6 +1119,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField tf_for;
     private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_namech;
+    private javax.swing.JTextField tf_nombre_crear_idioma;
     private javax.swing.JLabel txt_Contraseña;
     private javax.swing.JLabel txt_Correo;
     private javax.swing.JLabel txt_Edad;
@@ -951,5 +1141,6 @@ public class Main extends javax.swing.JFrame {
 
     private ArrayList<Usuario> usuarios = new ArrayList();
     private ArrayList<Juego> juegos = new ArrayList();
+    private ArrayList<Idiomas> idiomas = new ArrayList();
     
 }
