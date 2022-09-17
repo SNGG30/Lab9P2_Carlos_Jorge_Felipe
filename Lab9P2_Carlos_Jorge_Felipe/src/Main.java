@@ -389,6 +389,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         btn_addtogame.setText("Agregar");
+        btn_addtogame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_addtogameMouseClicked(evt);
+            }
+        });
 
         jtable_idiomas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -788,8 +793,8 @@ public class Main extends javax.swing.JFrame {
             Dba db = new Dba("./base1.accdb");
             db.conectar();
             try {
-                db.query.execute("Insert into Juegos (Categoria,Costo,Nombre) values('"+categoria+"','"+costo+"','"
-                        +nombre+"')");
+                db.query.execute("Insert into Juegos (Categoria,Costo,Nombre,Idiomas) values('"+categoria+"','"+costo+"','"
+                        +nombre+"','"+""+"')");
                 db.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -836,8 +841,47 @@ public class Main extends javax.swing.JFrame {
     private void TP_MainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TP_MainStateChanged
         if(TP_Main.getSelectedIndex()==1){
            cargar_juegos_combobox();
+        } else if(TP_Main.getSelectedIndex()==0){
+            update_tabla_crear();
         }
     }//GEN-LAST:event_TP_MainStateChanged
+
+    private void btn_addtogameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_addtogameMouseClicked
+        Juego j = (Juego) cb_games.getSelectedItem();
+        
+        //traer idiomas que ya tiene el juego seleccionado
+        String idiomas="";
+        Dba db = new Dba("./base1.accdb");
+        db.conectar();
+        try {
+            db.query.execute("Select (Idiomas) from Juegos where Id="+j.getId());
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {                
+                idiomas+=rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db.desconectar();
+        
+        DefaultTableModel modelo2 = (DefaultTableModel) jtable_idiomas.getModel();
+        int fila = jtable_idiomas.getSelectedRow();
+        String n= (String) modelo2.getValueAt(fila, 1);
+        String m = idiomas+n+",";
+        
+        Dba db2 = new Dba("./base1.accdb");
+        db2.conectar();
+        try {
+            db2.query.execute("Update Juegos set Idiomas ='"+m+"' where Id ="+j.getId());
+            db2.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        db2.desconectar();
+        
+        JOptionPane.showMessageDialog(MainScr, "Idioma agregado exitosamente!");
+        
+    }//GEN-LAST:event_btn_addtogameMouseClicked
 
     public void update_tabla_crear(){
         update_juegos();
