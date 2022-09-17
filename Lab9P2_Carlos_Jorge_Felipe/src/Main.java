@@ -213,7 +213,6 @@ public class Main extends javax.swing.JFrame {
 
         MainScr.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         MainScr.setTitle("Generador de Querys");
-        MainScr.setPreferredSize(new java.awt.Dimension(655, 800));
         MainScr.setResizable(false);
 
         btn_gen.setText("Generar");
@@ -514,6 +513,11 @@ public class Main extends javax.swing.JFrame {
         Archivo.add(Limpiar);
 
         Salir.setText("Salir");
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
         Archivo.add(Salir);
 
         mb_Archivo.add(Archivo);
@@ -775,6 +779,11 @@ public class Main extends javax.swing.JFrame {
         
         }
     }//GEN-LAST:event_btn_exeMouseClicked
+
+    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_SalirActionPerformed
 
     public void update_tabla_crear(){
         update_juegos();
