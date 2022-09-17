@@ -67,7 +67,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable_juegos_all = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtable_2_juegos = new javax.swing.JTable();
         txt_nombre = new javax.swing.JLabel();
         txt_categoria = new javax.swing.JLabel();
         txt_costo = new javax.swing.JLabel();
@@ -234,7 +234,7 @@ public class Main extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -257,7 +257,7 @@ public class Main extends javax.swing.JFrame {
             jtable_juegos_all.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_2_juegos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -280,12 +280,12 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane2.setViewportView(jtable_2_juegos);
+        if (jtable_2_juegos.getColumnModel().getColumnCount() > 0) {
+            jtable_2_juegos.getColumnModel().getColumn(0).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(1).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(2).setResizable(false);
+            jtable_2_juegos.getColumnModel().getColumn(3).setResizable(false);
         }
 
         txt_nombre.setText("Nombre");
@@ -733,8 +733,10 @@ public class Main extends javax.swing.JFrame {
             MainScr.setLocationRelativeTo(this);
             MainScr.setAlwaysOnTop(true);
             MainScr.setVisible(true);
-
             this.setVisible(false);
+            
+            update_tabla_crear();
+            
         } else{
             JOptionPane.showMessageDialog(this, "Datos incorrectos");
         }
@@ -767,8 +769,9 @@ public class Main extends javax.swing.JFrame {
         db.desconectar();
             
         JOptionPane.showMessageDialog(MainScr, "Juego creado exitosamente!");
-        update_juegos();
-        //update_tabla_crear();
+        
+        update_tabla_crear();
+        update_creado_juego();
         
         }
     }//GEN-LAST:event_btn_exeMouseClicked
@@ -777,10 +780,20 @@ public class Main extends javax.swing.JFrame {
         update_juegos();
         DefaultTableModel modelo = (DefaultTableModel) jtable_juegos_all.getModel();
         for (Juego j : juegos) {
-            Object [] newrow = {j.getId(),j.getCategoria(),j.getCosto(),j.getNombre(),j.getIdiomas()};
+            Object [] newrow = {j.getId(),j.getNombre(),j.getCategoria(),j.getCosto(),j.getIdiomas()};
             modelo.addRow(newrow);
         }
         jtable_juegos_all.setModel(modelo);
+    }
+    
+    public void update_creado_juego(){
+        update_juegos();
+        DefaultTableModel modelo = (DefaultTableModel) jtable_2_juegos.getModel();
+        for (Juego j : juegos) {
+            Object [] newrow = {j.getNombre(),j.getCategoria(),j.getCosto(),j.getIdiomas()};
+            modelo.addRow(newrow);
+        }
+        jtable_2_juegos.setModel(modelo);
     }
     
     public void update_juegos(){
@@ -886,8 +899,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jtable_2_juegos;
     private javax.swing.JTable jtable_juegos_all;
     private javax.swing.JMenuBar mb_Archivo;
     private javax.swing.JPasswordField pf_pass;
