@@ -1,11 +1,18 @@
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import lab9.Dba;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import lab9.Usuario;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import lab9.Idiomas;
 import lab9.Juego;
@@ -912,7 +919,45 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_addtogameMouseClicked
 
     private void btn_genMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_genMouseClicked
-        
+        if(cb_crud_juegos.getSelectedItem().equals("Crear")){
+            String nombre, categoria;
+            double costo;
+            
+            nombre = tf_name.getText();
+            categoria = tf_cat.getText();
+            costo = Double.parseDouble(tf_cos.getText());
+            
+            String queary = "Insert into (Categoria,Costo,Nombre) values('"+categoria+"',"+costo+",'"+nombre+"'";
+            File archivo = null;
+            JFileChooser jf = new JFileChooser();
+            int seleccion = jf.showSaveDialog(MainScr);
+            
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            
+            if(seleccion == JFileChooser.APPROVE_OPTION){
+                try {
+                    archivo = new File(jf.getSelectedFile().getPath()+".lol");
+                    fw= new FileWriter(archivo);
+                    bw=new BufferedWriter(fw);
+                    bw.write(queary);
+                    bw.flush();
+                } catch (Exception e) {
+                }
+                
+                try {
+                    fw.close();
+                    bw.close();
+                } catch (Exception e) {
+                }
+                
+                LibLab9 lb= new LibLab9();
+                lb.addRecent(archivo.getPath());
+                
+                
+            }
+            
+        }
     }//GEN-LAST:event_btn_genMouseClicked
 
     private void btn_CorreoenvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_CorreoenvMouseClicked
