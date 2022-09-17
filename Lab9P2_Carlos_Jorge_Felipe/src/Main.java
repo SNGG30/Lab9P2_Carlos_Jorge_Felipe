@@ -97,6 +97,7 @@ public class Main extends javax.swing.JFrame {
         ta_body = new javax.swing.JTextArea();
         tf_for = new javax.swing.JTextField();
         tf_case = new javax.swing.JTextField();
+        btn_Correoenv = new javax.swing.JToggleButton();
         mb_Archivo = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         AbrirArchivo = new javax.swing.JMenuItem();
@@ -496,6 +497,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btn_Correoenv.setText("Enviar");
+        btn_Correoenv.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_CorreoenvMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout CorreoLayout = new javax.swing.GroupLayout(Correo);
         Correo.setLayout(CorreoLayout);
         CorreoLayout.setHorizontalGroup(
@@ -503,14 +511,20 @@ public class Main extends javax.swing.JFrame {
             .addGroup(CorreoLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_for, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_case, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_msg, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(tf_case, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                        .addComponent(tf_for, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(CorreoLayout.createSequentialGroup()
+                        .addGroup(CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_for, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_case, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_msg, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(CorreoLayout.createSequentialGroup()
+                        .addGroup(CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tf_case, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                            .addComponent(tf_for, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Correoenv, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70))))
         );
         CorreoLayout.setVerticalGroup(
             CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,7 +532,9 @@ public class Main extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(txt_for)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tf_for, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(CorreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_for, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Correoenv))
                 .addGap(19, 19, 19)
                 .addComponent(txt_case)
                 .addGap(18, 18, 18)
@@ -899,6 +915,11 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_genMouseClicked
 
+    private void btn_CorreoenvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_CorreoenvMouseClicked
+       LibLab9 ll9 = new LibLab9();
+       ll9.sendMail(ta_body.getText(), tf_case.getText(), tf_for.getText());
+    }//GEN-LAST:event_btn_CorreoenvMouseClicked
+
     public void update_tabla_crear(){
         update_juegos();
         
@@ -1145,6 +1166,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem Salir;
     private javax.swing.JTabbedPane TP_Main;
     private javax.swing.JButton btn_Back;
+    private javax.swing.JToggleButton btn_Correoenv;
     private javax.swing.JButton btn_Register;
     private javax.swing.JToggleButton btn_addtogame;
     private javax.swing.JToggleButton btn_creatid;
